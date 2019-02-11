@@ -7,7 +7,8 @@ Created on Tue Jan 22 09:55:18 2019
 """
 from random import randint
 from tkinter import *
-vysledek=0  
+correct = 0
+total = 0
 class App(): 
     
     def __init__(self, master):
@@ -34,12 +35,19 @@ class App():
         self.Label = Label(self.frame, text=u"=")
         self.Label.grid(row = 2, column=0,columnspan=1)
         
-        self.vysledek=Entry(self.frame,width=4)
-        self.vysledek.grid(row=2,column=1)
+        self.resultentry=Entry(self.frame,width=4)
+        self.resultentry.grid(row=2,column=1)
         
-        self.tlacitko = Button(self.frame,width=4, text=u"Vypočítej")
+        self.tlacitko = Button(self.frame,width=6, text=u"Vypočítej",command=self.check)
         self.tlacitko.grid(row=2, column= 3)
         self.radiobuttons()
+        
+        self.lblcor=Label(self.frame,text="")
+        self.lblcor.grid(row=4,column=4)
+        
+        #Statistika
+        self.lblStat = Label(self.frame,text="0/0")
+        self.lblStat.grid(row=3,column=4)
         
     def radiobuttons(self):
         
@@ -89,30 +97,42 @@ class App():
         return()
         
     def times(self):
-        self.number1 = randint(1,9)
+        self.number1 = randint(2,9)
         self.number1entry.delete(0,5)
         self.number1entry.insert(0,str(self.number1))
-        self.number2 = randint(1,9)
+        self.number2 = randint(2,9)
         self.number2entry.delete(0,5)
         self.number2entry.insert(0,str(self.number2))
         self.result = self.number1 * self.number2
         return()
         
-    
+#dělení zatím nefunguje
     def div(self):
-        self.number1 = randint(2,100)
-        self.number1entry.delete(0,5)
-        self.number1entry.insert(0,str(self.number1))
-        self.number2 = randint(2,10) 
+        self.number2 = randint(2,9)
         self.number2entry.delete(0,5)
         self.number2entry.insert(0,str(self.number2))
-        self.result = self.number1 * self.number2
+        self.number1 =randint(2,99 // self.number2)
+        self.number1entry.delete(0,5)
+        self.number1entry.insert(0,str(self.number1))
+        self.result = self.number1 / self.number2
         return()
         
-
-
-
-
+    def check(self):
+        global correct
+        global total
+        if self.result == int(self.resultentry.get()):
+            self.lblcor.config(text="Správně")
+            correct += 1
+            
+        else:
+            self.lblcor.config(text="Špatně")
+        total += 1
+            
+        self.resultentry.delete(0,5)
+        self.number1entry.delete(0,5)
+        self.number2entry.delete(0,5)
+        self.lblStat.config(text="{0}/{1}".format(correct,total))
+        
 root = Tk()
 app = App(root)
 root.mainloop()
