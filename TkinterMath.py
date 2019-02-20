@@ -106,12 +106,13 @@ class App():
         self.result = self.number1 * self.number2
         return()
         
-#dělení zatím nefunguje
+
     def div(self):
-        self.number2 = randint(2,9)
+        self.number2 = randint(1,10)
         self.number2entry.delete(0,5)
         self.number2entry.insert(0,str(self.number2))
-        self.number1 =randint(2,99 // self.number2)
+        self.result1 = randint(1,10)
+        self.number1 = self.number2 * self.result1
         self.number1entry.delete(0,5)
         self.number1entry.insert(0,str(self.number1))
         self.result = self.number1 / self.number2
